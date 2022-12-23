@@ -1,0 +1,12 @@
+version: 3
+
+dotenv: ['.env']
+
+tasks:
+  build:
+    cmds:
+      - gradle -Pjdk19_home="${JAVA_HOME}" -Pllvm_home="${LLVM_HOME}" clean verify
+
+
+
+
