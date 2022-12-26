@@ -4,7 +4,7 @@ dotenv: ['.env']
 
 env:
   LLVM_HOME: "/usr/lib/llvm-15"
-  LD_LIBRARY_PATH: "/usr/lib/llvm-15/lib:$LD_LIBRARY_PATH"
+#  LD_LIBRARY_PATH: "/usr/lib/llvm-15/lib:$LD_LIBRARY_PATH"
 
 tasks:
   build:
@@ -14,7 +14,15 @@ tasks:
     cmds:
       - cp /usr/include/yara.h ./samples/yara
       - cp -r /usr/include/yara ./samples/yara
-
+  yara-extract:
+    cmds:
+      - sh -c "(
+                build/jextract/bin/jextract
+                --source
+                --output java-yara
+                --target-package com.virustotal.yara
+                ./samples/yara/yara.h
+              )"
 
 
 
