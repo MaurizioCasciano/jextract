@@ -10,6 +10,10 @@ tasks:
   build:
     cmds:
       - gradle -Pjdk19_home="${JAVA_HOME}" -Pllvm_home="${LLVM_HOME}" clean verify
+  yara-header:
+    cmds:
+      - cp /usr/include/yara.h ./samples/yara
+      - cp -r /usr/include/yara ./samples/yara
 
 
 
