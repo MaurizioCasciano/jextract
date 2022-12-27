@@ -3,11 +3,16 @@ version: 3
 dotenv: ['.env']
 
 env:
-  LLVM_HOME: "/usr/lib/llvm-15"
+  LLVM_HOME: "./libs/clang_llvm"
   JTREG_HOME: "/usr/lib/jtreg"
 #  LD_LIBRARY_PATH: "/usr/lib/llvm-15/lib:$LD_LIBRARY_PATH"
 
 tasks:
+  setup:
+    cmds:
+      - mkdir -p libs/clang_llvm
+      - true || wget -nc -O libs/clang_llvm.tar.xz --show-progress https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/clang+llvm-15.0.6-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+      - tar --strip-components=1 -xvf libs/clang_llvm.tar.xz -C libs/clang_llvm
   build:
     cmds:
       - gradle -Pjdk19_home="${JAVA_HOME}" -Pllvm_home="${LLVM_HOME}" clean verify
