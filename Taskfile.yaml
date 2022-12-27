@@ -4,12 +4,16 @@ dotenv: ['.env']
 
 env:
   LLVM_HOME: "/usr/lib/llvm-15"
+  JTREG_HOME: "/usr/lib/jtreg"
 #  LD_LIBRARY_PATH: "/usr/lib/llvm-15/lib:$LD_LIBRARY_PATH"
 
 tasks:
   build:
     cmds:
       - gradle -Pjdk19_home="${JAVA_HOME}" -Pllvm_home="${LLVM_HOME}" clean verify
+  test:
+    cmds:
+      - gradle -Pjdk19_home="${JAVA_HOME}" -Pllvm_home="${LLVM_HOME}" -Pjtreg_home="${JTREG_HOME}" jtreg
   yara-header:
     cmds:
       - cp /usr/include/yara.h ./samples/yara
