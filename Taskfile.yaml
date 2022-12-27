@@ -23,12 +23,12 @@ tasks:
     cmds:
       - cp /usr/include/yara.h ./samples/yara
       - cp -r /usr/include/yara ./samples/yara
-  yara-extract:
+  java-yara:
     cmds:
       - sh -c "(
                 build/jextract/bin/jextract
                 --source
-                --output java-yara
+                --output samples/yara/java-yara
                 --target-package com.virustotal.yara
                 ./samples/yara/yara.h
               )"
