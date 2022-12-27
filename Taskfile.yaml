@@ -32,6 +32,11 @@ tasks:
                 --target-package com.virustotal.yara
                 ./samples/yara/yara.h
               )"
-
-
-
+  java-yara-includes:
+    cmds:
+      - mkdir -p samples/yara/includes
+      - sh -c "(
+                build/jextract/bin/jextract
+                --dump-includes samples/yara/includes/java-yara-includes.txt
+                samples/yara/yara.h
+              )"
