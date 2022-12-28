@@ -5,7 +5,14 @@ dotenv: ['.env']
 env:
   LLVM_HOME: "./libs/clang_llvm"
   JTREG_HOME: "/usr/lib/jtreg"
-#  LD_LIBRARY_PATH: "/usr/lib/llvm-15/lib:$LD_LIBRARY_PATH"
+
+vars:
+  PROJECT_ROOT:
+    sh: echo $PWD
+  YARA_JAVA_ROOT: "samples/yara/yara-java"
+  YARA_JAVA_SRC: "{{.YARA_JAVA_ROOT}}/src/main/java"
+  YARA_JAVA_RESOURCES: "{{.YARA_JAVA_ROOT}}/src/main/resources"
+  YARA_JAVA_HEADERS: "{{.YARA_JAVA_RESOURCES}}/headers"
 
 tasks:
   setup:
@@ -19,24 +26,26 @@ tasks:
   test:
     cmds:
       - gradle -Pjdk19_home="${JAVA_HOME}" -Pllvm_home="${LLVM_HOME}" -Pjtreg_home="${JTREG_HOME}" jtreg
-  yara-header:
+  yara-headers:
     cmds:
-      - cp /usr/include/yara.h ./samples/yara
-      - cp -r /usr/include/yara ./samples/yara
-  java-yara:
+      - mkdir -p {{.YARA_JAVA_HEADERS}}
+      - cp /usr/include/yara.h {{.YARA_JAVA_HEADERS}}
+      - cp -r /usr/include/yara {{.YARA_JAVA_HEADERS}}
+  yara-java:
     cmds:
+      - task: yara-java-includes
       - sh -c "(
                 build/jextract/bin/jextract
                 --source
-                --output samples/yara/java-yara
+                --output {{.YARA_JAVA_SRC}}
                 --target-package com.virustotal.yara
-                ./samples/yara/yara.h
+                {{.YARA_JAVA_HEADERS}}/yara.h
               )"
-  java-yara-includes:
+  yara-java-includes:
     cmds:
-      - mkdir -p samples/yara/includes
+      - mkdir -p {{.YARA_JAVA_RESOURCES}}
       - sh -c "(
                 build/jextract/bin/jextract
-                --dump-includes samples/yara/includes/java-yara-includes.txt
-                samples/yara/yara.h
+                --dump-includes {{.YARA_JAVA_RESOURCES}}/includes.txt
+                {{.YARA_JAVA_HEADERS}}/yara.h
               )"
