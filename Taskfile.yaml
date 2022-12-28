@@ -36,6 +36,7 @@ tasks:
       - task: yara-java-includes
       - sh -c "(
                 build/jextract/bin/jextract
+                -l yara
                 --source
                 --output {{.YARA_JAVA_SRC}}
                 --target-package com.virustotal.yara
