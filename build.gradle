@@ -12,7 +12,8 @@ def static checkPath(String p) {
     }
 }
 
-def llvm_home = project.property("llvm_home")
+def llvm_home =  project.hasProperty('llvm_home') ? project.property('llvm_home') : System.getenv("LLVM_HOME") != null ? System.getenv("LLVM_HOME") : "libs/clang_llvm"
+
 checkPath(llvm_home)
 checkPath("${llvm_home}/lib/clang")
 def clang_versions = new File("${llvm_home}/lib/clang/").list();
