@@ -12,7 +12,8 @@ def static checkPath(String p) {
     }
 }
 
-def llvm_home =  project.hasProperty('llvm_home') ? project.property('llvm_home') : System.getenv("LLVM_HOME") != null ? System.getenv("LLVM_HOME") : "libs/clang_llvm"
+def jdk19_home = project.hasProperty("jdk19_home") ? project.property("jdk19_home") : System.getenv("JAVA_HOME") != null ? System.getenv("JAVA_HOME") : System.getenv("HOME") + "/.sdkman/candidates/java/current"
+def llvm_home =  project.hasProperty("llvm_home") ? project.property("llvm_home") : System.getenv("LLVM_HOME") != null ? System.getenv("LLVM_HOME") : "libs/clang_llvm"
 
 checkPath(llvm_home)
 checkPath("${llvm_home}/lib/clang")
